@@ -7,7 +7,7 @@ The project grew out of my interest in connecting higher-level application code 
 ## Project structure
 
 ```text
-Drones/
+mavsdk-drone-controller/
 ├── app/
 │   ├── DroneConsoleApp.cpp
 │   ├── DroneConsoleApp.h
