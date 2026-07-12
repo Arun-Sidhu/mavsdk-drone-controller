@@ -1,6 +1,6 @@
 # Drone Controller
 
-This is a personal C++ project for experimenting with drone control through a shared API. It includes a mock controller for testing the basic command flow and a MAVSDK controller that can communicate with PX4 Software In The Loop or a compatible vehicle.
+This is a personal C++ project for experimenting with drone control through a shared API. It includes a mock controller for testing the basic command flow and a MAVSDK controller that can communicate with PX4 Software-in-the-Loop simulation or a compatible vehicle.
 
 The project grew out of my interest in connecting higher-level application code to drone flight commands while keeping the controller behind a clear interface. The console application supports connection management, arming, takeoff, location-based movement, body-frame velocity commands, telemetry, landing, and return-to-launch behavior.
 
@@ -16,7 +16,7 @@ mavsdk-drone-controller/
 │   ├── PX4SimulatorLauncher.cpp
 │   └── PX4SimulatorLauncher.h
 ├── mock/
-│   ├── main.cpp    
+│   ├── main.cpp
 │   ├── MockDroneController.cpp
 │   └── MockDroneController.h
 ├── real/
@@ -28,11 +28,13 @@ mavsdk-drone-controller/
 │   ├── MavsdkDroneController.h
 │   ├── MavsdkTelemetryUtils.cpp
 │   └── MavsdkTelemetryUtils.h
+├── .gitignore
 ├── DroneAPI.h
-└── Makefile
+├── Makefile
+└── README.md
 ```
 
-`DroneAPI.h` defines the common interface used by both controllers. The mock controller keeps its own in-memory state, which makes it useful for checking the API without starting PX4. The MAVSDK controller handles actual MAVLink communication and includes validation and safety checks before sending flight commands.
+`DroneAPI.h` defines the common interface used by both controllers. The mock controller keeps its own in-memory state, which makes it useful for checking the API without starting PX4. The MAVSDK controller handles MAVLink communication and includes validation and safety checks before sending flight commands.
 
 ## Requirements
 
@@ -45,7 +47,7 @@ The MAVSDK build also requires:
 - `curl`
 - PX4-Autopilot and its simulator dependencies
 
-The Makefile expects this command to return the MAVSDK compiler and linker flags:
+The Makefile expects the following command to return the MAVSDK compiler and linker flags:
 
 ```bash
 pkg-config --cflags --libs mavsdk
@@ -55,19 +57,19 @@ MAVSDK installation instructions are available in the [official MAVSDK guide](ht
 
 ## Getting PX4-Autopilot
 
-PX4-Autopilot is maintained as a separate project and is not included in this repository. Clone it beside the `Drones` folder so the launcher can find it through the relative path used by the application.
+PX4-Autopilot is maintained as a separate project and is not included in this repository. It should be cloned beside this repository so the simulator launcher can find it through the relative path used by the application.
 
-From the parent folder that contains this repository, run:
+From the parent folder containing `mavsdk-drone-controller`, run:
 
 ```bash
 git clone --recursive https://github.com/PX4/PX4-Autopilot.git
 ```
 
-The two folders should look like this:
+The folders should be arranged like this:
 
 ```text
 Drones_Project/
-├── Drones/
+├── mavsdk-drone-controller/
 └── PX4-Autopilot/
 ```
 
@@ -86,11 +88,11 @@ cd PX4-Autopilot
 make px4_sitl gz_x500
 ```
 
-Once the simulator opens successfully, stop it and return to the `Drones` folder.
+Once the simulator opens successfully, stop it and return to the `mavsdk-drone-controller` folder.
 
 ## Building and running the mock controller
 
-From the root of the `Drones` repository:
+From the repository root, build and run the mock controller with:
 
 ```bash
 make mock
@@ -102,6 +104,8 @@ The same steps can be run with one command:
 ```bash
 make run-mock
 ```
+
+Running `make` by itself also builds the mock controller because it is the default target.
 
 The mock program connects to an in-memory drone, arms it, takes off, moves to an example location, prints telemetry, and lands. It does not require PX4 or MAVSDK.
 
@@ -137,7 +141,7 @@ The application asks whether PX4 SITL should be started. When simulation is sele
 
 Movement commands begin in a locked state. They must be unlocked before takeoff, location movement, velocity movement, or return-to-launch can be sent. The application locks them again after a movement command finishes.
 
-The project also checks values such as altitude, horizontal distance, velocity, yaw speed, and command duration. These checks are useful safeguards for development, but this project should not be treated as a complete flight-safety system.
+The project also checks values such as altitude, horizontal distance, velocity, yaw speed, and command duration. These checks are useful safeguards during development, but this project should not be treated as a complete flight-safety system.
 
 ## Useful Makefile commands
 
