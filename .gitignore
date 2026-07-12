@@ -1,69 +1,28 @@
-# Prerequisites
-*.d
+# Compiled project executables
+/mock_drone
+/real_drone
 
-# Compiled Object files
-*.slo
-*.lo
+# Local build output
+/build/
+/cmake-build-*/
 *.o
 *.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Linker files
-*.ilk
-
-# Debugger Files
-*.pdb
-
-# Compiled Dynamic libraries
+*.a
 *.so
 *.dylib
-*.dll
-*.so.*
 
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
-
-# Build directories
-build/
-Build/
-build-*/
-
-# CMake generated files
-CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
-Makefile
-install_manifest.txt
-compile_commands.json
-
-# Temporary files
-*.tmp
+# Logs and temporary files
 *.log
-*.bak
+*.tmp
 *.swp
+*~
 
-# vcpkg
-vcpkg_installed/
+# Editor settings
+.vscode/
+.idea/
 
-# debug information files
-*.dwo
+# Local system files
+.DS_Store
 
-# test output & cache
-Testing/
-.cache/
+# Keep the external PX4 checkout out of this repository if it is ever placed here
+/PX4-Autopilot/
